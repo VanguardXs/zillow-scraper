@@ -1,27 +1,30 @@
-# 🏠 Zillow Real Estate Scraper & Analytics Dashboard
+# Zillow Real Estate Data Pipeline
 
-A Python-based data pipeline that collects real estate listings from Zillow
-across 10 major US cities, stores them in PostgreSQL, and generates
-analytics reports.
+Collects real estate listings from the Zillow API across 10 major US cities,
+stores them in PostgreSQL, serves them over a REST API, and generates
+scheduled Excel reports.
 
-## 🚀 Features
+![API docs](docs/swagger.png)
 
-- Fetches 2000+ real estate listings via Zillow API
-- Stores data in PostgreSQL with deduplication
+## Features
+
+- Fetches 2000+ listings via Zillow API
+- Deduplicated by `zpid` on insert, so daily runs update existing listings
+  instead of creating copies
 - REST API with filters (city, price, bedrooms)
-- Automated Excel reports with charts
+- Excel reports with charts
 - Daily scheduler via APScheduler
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Python 3.14**
 - **FastAPI** — REST API
-- **PostgreSQL + SQLAlchemy** — Database
+- **PostgreSQL + SQLAlchemy** — database
 - **OpenPyXL** — Excel reports
-- **APScheduler** — Task automation
+- **APScheduler** — task automation
 - **Zillow API** (OpenWebNinja)
 
-## 📊 Data Collected
+## Data Collected
 
 | Field | Description |
 |-------|-------------|
@@ -33,52 +36,69 @@ analytics reports.
 | Home Type | CONDO, SINGLE_FAMILY, etc |
 | Zestimate | Zillow price estimate |
 
-## 🏙️ Cities Covered
+## Cities Covered
 
 New York, Los Angeles, Chicago, Houston, Phoenix,
 Miami, Seattle, Denver, Austin, Las Vegas
 
-## ⚙️ Installation
+## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/zillow-scraper.git
+git clone https://github.com/VanguardXs/zillow-scraper.git
 cd zillow-scraper
 pip install -r requirements.txt
 ```
 
-Create `.env` file: ZILLOW_API_KEY=your_api_key
+Create a `.env` file:
+
+```
+ZILLOW_API_KEY=your_api_key
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=zillow_db
 DB_USER=zillow_user
 DB_PASSWORD=yourpassword
-## 🔧 Usage
+```
+
+## Usage
 
 **Run scraper:**
+
 ```bash
 python -c "from scraper.zillow_api import run_scraper; run_scraper()"
 ```
 
 **Generate Excel report:**
+
 ```bash
 python -c "from reports.excel_report import generate_report; generate_report()"
 ```
 
 **Start API:**
+
 ```bash
 uvicorn api.main:app --reload
 ```
 
 **Start scheduler:**
+
 ```bash
 python scheduler/tasks.py
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | /listings | All listings with filters |
-| GET | /listings/{id} | Single listing |
-| GET | /stats | Stats by city |
-| POST | /scrape | Trigger scraping |
+| GET | `/listings` | All listings with filters |
+| GET | `/listings/{id}` | Single listing |
+| GET | `/stats` | Stats by city |
+| POST | `/scrape` | Trigger scraping |
+
+## Output
+
+![Excel report](docs/excel-report.png)
+
+## License
+
+Released under the [MIT License](LICENSE).
