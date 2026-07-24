@@ -4,7 +4,7 @@ Collects real estate listings from the Zillow API across 10 major US cities,
 stores them in PostgreSQL, serves them over a REST API, and generates
 scheduled Excel reports.
 
-![API docs](docs/swagger.png)
+![API docs](docs/swagger2.png)
 
 ## Features
 
